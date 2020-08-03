@@ -58,13 +58,17 @@ def main():
     level = 1
     lives = 5
     main_font = pygame.font.SysFont("comicsans",50)
+    player_vel = 5
     clock  = pygame.time.Clock()
     ship = Ship(300,650)
 
     def redraw_window():
         # Adding the background image at coordinate (0,0)
+        # blit - takes an image makes it a surface and draws it into window
         WINDOW.blit(BACK_GROUND, (0,0))
+
         # draw text
+        # F - string : add values to strings
         lives_label = main_font.render(f"Lives:{lives}",1,(250,0,0))
         level_label = main_font.render(f"Level:{level}",1,(255,255,255))
 
@@ -74,6 +78,7 @@ def main():
 
         ship.draw(WINDOW)
 
+        # refresh display
         pygame.display.update()
 
     while run:
@@ -84,6 +89,19 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-        keys = pygame.key.get_pressed()
+
+        # Movements of objects in game
+        Keys = pygame.key.get_pressed()
+        if Keys[pygame.K_a] and ship.location_x - player_vel > 0: # moving left
+            ship.location_x -= player_vel
+        if Keys[pygame.K_d] and  ship.location_x + player_vel + 50 < WIDTH: # moving right
+            ship.location_x += player_vel
+        if Keys[pygame.K_w] and ship.location_y - player_vel > 0: # moving up
+            ship.location_y -= player_vel
+        if Keys[pygame.K_s] and ship.location_y + player_vel + 50 < HEIGHT: # moving down
+            ship.location_y += player_vel
+
+
+
 
 main()
